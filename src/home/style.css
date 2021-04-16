@@ -1,0 +1,10 @@
+.log-in{
+    float: right;
+    padding-left: 55%;
+}
+
+@media only screen and (max-width: 800px) {
+    .log-in {
+        padding-left: 0%;
+    }
+}
