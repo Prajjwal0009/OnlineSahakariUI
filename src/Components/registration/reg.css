@@ -1,0 +1,82 @@
+{
+    position: absolute;
+    top: 37%;
+    left: 70%;
+    transform: translate(-50%,-50%);
+    width: 670px;
+    height: 480px;
+}
+.log
+{
+    font-family: 'Roboto',sans-serif;
+    font-size: 15px;
+    /*text-shadow: 3px;*/
+    color: black;
+}
+.ns
+{
+    font-size: 14px;
+    margin-left: 10px;
+    color: black;
+    text-align: center;
+}
+form
+{
+    margin-top: 40px;
+}
+.row button
+{
+    width: 24rem;
+}
+.word
+{
+    font-style: bold;
+    font-family: 'Roboto',sans-serif;
+
+}
+.head
+{
+    font-size: 150px;
+    font-weight: 600;
+    color: #fff;
+    font-family: 'Cinzel', serif;
+}
+p
+{
+    color: white;
+    font-size: 26px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+}
+#heading
+{
+    background-color: black;
+    width: 800px;
+    height: 568px;
+    position: absolute;
+    top: 12%;
+    left: 13%;
+    text-align: center;
+    opacity: .6;
+}
+#logh
+{
+    color: #5f2c7e;
+    font-family: 'Cinzel', serif;
+    text-align: center;
+}
+.row button
+{
+    width: 35rem;
+    height: 3.4rem;
+    font-size: 1.1rem;
+}
+.row .btn
+{
+    background-color: green;
+    color: white;
+}
+.log-in{
+    float: right;
+    padding-left: 20%;
+}
