@@ -9,6 +9,7 @@ class Registration extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
+         
             name: '',
             address: '',
             contact: '',
@@ -22,8 +23,12 @@ class Registration extends Component {
 
     onSubmit = (event) => {
         event.preventDefault();
-        registerUser(this.state.name, this.state.address, this.state.contact, this.state.startDate, this.state.endDate, this.state.areaId, 3).then(res => console.log(res))
+        registerUser(this.state.id,this.state.name, this.state.address, this.state.contact, this.state.startDate, this.state.endDate, this.state.areaId,this.state.isActive, 3).then(res =>
         window.location.href='/customerList'
+        )
+            .catch(err=>{
+                window.location.href='/customerList'
+            })
     }
     handleChange = (e) => {
         this.setState({[e.target.name]: e.target.value});
@@ -32,10 +37,17 @@ class Registration extends Component {
     render() {
         return (
             <div>
+                <div className="heading">AddCustomer</div>
                 <Container maxWidth="xs">
                     <form onSubmit={(event) => this.onSubmit(event)}>
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
+                                    <div className="col-sm-9" id="id">
+                                        <TextField label="Id" fullWidth variant="outlined" name="id"
+                                                   onChange={(e) => this.handleChange(e)}/>
+                                </div>
+
+                            </Grid> <Grid item xs={12}>
                                     <div className="col-sm-9" id="Name">
                                         <TextField label="Name" fullWidth variant="outlined" name="name"
                                                    onChange={(e) => this.handleChange(e)}/>
@@ -44,7 +56,7 @@ class Registration extends Component {
                             </Grid>
                             <Grid item xs={12}>
                                     <div className="col-sm-9" id="Address">
-                                        <TextField label="Address" fullWidth variant="outlined" name="Address"
+                                        <TextField label="Address" fullWidth variant="outlined" name="address"
                                                    onChange={(e) => this.handleChange(e)}/>
                                     </div>
                             </Grid>

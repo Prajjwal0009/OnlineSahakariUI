@@ -1,25 +1,108 @@
 import axios from "axios";
-export function getCountries()  {
-return new Promise(function (resolve,reject){
-    axios.get('https://restcountries.eu/rest/v2/all?fbclid=IwAR349L5m1MVSXbquDlpe04DLJ7VblhCY_m9WabhH6lVG-Lzu1lvr_YG5tXc').then((res) =>resolve(res))
-        .catch((err) => console.log(err))
-    })
-}
+
 export function getCollectorsList()  {
 return new Promise(function (resolve,reject){
-    axios.get('http://localhost:1234/collector').then((res) =>resolve(res))
+    axios.get('http://localhost:4567/collector').then((res) =>resolve(res))
         .catch((err) => console.log(err))
     })
 }
 export function getCustomerLists()  {
     return new Promise(function (resolve,reject){
-        axios.get('http://localhost:1234/customer').then((res) =>resolve(res))
+        axios.get('http://localhost:4567/customer').then((res) =>resolve(res))
             .catch((err) => console.log(err))
     })
 }
 export function getCollectionLists()  {
     return new Promise(function (resolve,reject){
-        axios.get('http://localhost:1234/collection').then((res) =>resolve(res))
+        axios.get('http://localhost:4567/collection').then((res) =>resolve(res))
+            .catch((err) => console.log(err))
+    })
+}
+export function addCollection(collectionData)  {
+    return new Promise(function (resolve,reject){
+        axios.get('http://localhost:4567/collection', collectionData).then((res) =>resolve(res))
+            .catch((err) => console.log(err))
+    })
+}
+export function addCollector(collectorData)  {
+    return new Promise(function (resolve,reject){
+        axios.get('http://localhost:4567/collector', collectorData).then((res) =>resolve(res))
+            .catch((err) => console.log(err))
+    })
+}
+export function addCustomer(customerData)  {
+    return new Promise(function (resolve,reject){
+        axios.get('http://localhost:4567/customer', customerData).then((res) =>resolve(res))
+            .catch((err) => console.log(err))
+    })
+}
+export function deleteCollection(collectionData)  {
+    return new Promise(function (resolve,reject){
+        axios.get('http://localhost:4567/collection/delete/:id', collectionData).then((res) =>resolve(res))
+            .catch((err) => console.log(err))
+    })
+}export function deleteCustomer(customerData)  {
+    return new Promise(function (resolve,reject){
+        axios.get('http://localhost:4567/customer/delete/:id', customerData).then((res) =>resolve(res))
+            .catch((err) => console.log(err))
+    })
+}export function deleteCollector(collectorData)  {
+    return new Promise(function (resolve,reject){
+        axios.get('http://localhost:4567/collector/delete/:id', collectorData).then((res) =>resolve(res))
+            .catch((err) => console.log(err))
+    })
+}
+export function getSingleCustomer()  {
+    return new Promise(function (resolve,reject){
+        axios.get('http://localhost:4567/customer/:id').then((res) =>resolve(res))
+            .catch((err) => console.log(err))
+    })
+}
+export function getSingleCollector()  {
+    return new Promise(function (resolve,reject){
+        axios.get('http://localhost:4567/collector/:id').then((res) =>resolve(res))
+            .catch((err) => console.log(err))
+    })
+}
+export function getSingleCollection()  {
+    return new Promise(function (resolve,reject){
+        axios.get('http://localhost:4567/collection/:id').then((res) =>resolve(res))
+            .catch((err) => console.log(err))
+    })
+}
+export function modifyCollector()  {
+    return new Promise(function (resolve,reject){
+        axios.post('http://localhost:4567/collector/:id').then((res) =>resolve(res))
+            .catch((err) => console.log(err))
+    })
+}
+export function modifyCollection()  {
+    return new Promise(function (resolve,reject){
+        axios.post('http://localhost:4567/collection/:id').then((res) =>resolve(res))
+            .catch((err) => console.log(err))
+    })
+}
+export function modifyCustomer()  {
+    return new Promise(function (resolve,reject){
+        axios.post('http://localhost:4567/customer/:id').then((res) =>resolve(res))
+            .catch((err) => console.log(err))
+    })
+}
+export function updateCollector()  {
+    return new Promise(function (resolve,reject){
+        axios.get('http://localhost:4567/collector/:id').then((res) =>resolve(res))
+            .catch((err) => console.log(err))
+    })
+}
+export function updateCustomer()  {
+    return new Promise(function (resolve,reject){
+        axios.get('http://localhost:4567/customer/:id').then((res) =>resolve(res))
+            .catch((err) => console.log(err))
+    })
+}
+export function updateCollection()  {
+    return new Promise(function (resolve,reject){
+        axios.get('http://localhost:4567/collector/:id').then((res) =>resolve(res))
             .catch((err) => console.log(err))
     })
 }
@@ -32,7 +115,7 @@ export function loginUser(userName,password,retryTimes){
     return new Promise(function (resolve, reject){
         axios({
             method: "post",
-            url: "https:/regres.in/api/users",
+            url: "http://localhost:4567/user",
             headers: {},
             data: data
         }).then((res, err) => {
@@ -57,20 +140,23 @@ export function loginUser(userName,password,retryTimes){
         })
     });
 }
-export function collectorRegisterUser(name,address,contact,retryTimes){
+export function collectorRegisterUser(id,name,address,contact,retryTimes){
     var data ={
+        "id":id,
         "name": name,
         "address": address,
         "contact": contact,
     }
+    console.log(data)
     return new Promise(function (resolve, reject){
         axios({
             method: "post",
-            url: "https:/regres.in/api/users",
+            url: "http://localhost:4567/collector",
             headers: {},
             data: data
         }).then((res, err) => {
             if (res) {
+                console.log(res.data)
                 resolve(res.data)
             } else {
                 console.log(err)
@@ -81,7 +167,7 @@ export function collectorRegisterUser(name,address,contact,retryTimes){
                 reject(err);
             } else {
                 setTimeout(() => {
-                    collectorRegisterUser(name,address,contact,retryTimes - 1).then(function (response) {
+                    collectorRegisterUser(id,name,address,contact,retryTimes - 1).then(function (response) {
                         resolve(response.data);
 
                     }).catch(function (error) {
@@ -92,23 +178,22 @@ export function collectorRegisterUser(name,address,contact,retryTimes){
         })
     });
 }
-export function registerUser(name,address,contact, startDate,endDate,areaId,area,isActive,retryTimes) {
+export function registerUser(id,name,address,contact, startDate,endDate,areaId,isActive,retryTimes) {
     var data = {
+        "id" : id,
         "name": name,
         "address": address,
         "contact": contact,
         "startDate": startDate,
         "endDate": endDate,
         "areaId": areaId,
-        "area": area,
         "isActive": isActive
-
     }
-
+    console.log(data);
     return new Promise(function (resolve, reject){
         axios({
-            method: "post",
-            url: "https:/regres.in/api/users",
+            method: "POST",
+            url: "http://localhost:4567/customer",
             headers: {},
             data: data
         }).then((res, err) => {
@@ -123,7 +208,7 @@ export function registerUser(name,address,contact, startDate,endDate,areaId,area
                 reject(err);
             } else {
                 setTimeout(() => {
-                    registerUser(name,address,contact, startDate,endDate,areaId,retryTimes - 1).then(function (response) {
+                    registerUser(id,name,address,contact, startDate,endDate,areaId,isActive, - 1).then(function (response) {
                         resolve(response.data);
                     }).catch(function (error) {
                         reject(error);
@@ -134,19 +219,17 @@ export function registerUser(name,address,contact, startDate,endDate,areaId,area
     });
 
 }
-export function collectorList(id,name,address,contact,retryTimes) {
-    var data = {
-        "id": id,
-        "name": name,
-        "address": address,
-        "contact": contact,
-    }
+export function collectorList(id) {
     return new Promise(function (resolve, reject) {
+        let collectorUrl = "http://localhost:4567/collector";
+        if(id!==null && id !=="" && id!=="0")
+        {
+            collectorUrl = collectorUrl + "/" + id;
+        }
         axios({
-            method: "post",
-            url: "https:/regres.in/api/users",
-            headers: {},
-            data: data
+            method: "get",
+            url: collectorUrl,
+            headers: {}
         }).then((res, err) => {
             if (res) {
                 resolve(res.data)
@@ -155,17 +238,7 @@ export function collectorList(id,name,address,contact,retryTimes) {
                 reject(err);
             }
         }).catch(function (err) {
-            if (retryTimes === 1) {
-                reject(err);
-            } else {
-                setTimeout(() => {
-                    registerUser(id,name, address, contact, retryTimes - 1).then(function (response) {
-                        resolve(response.data);
-                    }).catch(function (error) {
-                        reject(error);
-                    });
-                }, 1000); //retry after 1 sec
-            }
+            reject(err);
         })
     });
 }
@@ -178,10 +251,11 @@ export function collectionRegisterUser(id,collectorId,customerId,amount,collecti
         "collectionDate": collectionDate,
         "receivedBy": receivedBy,
     }
+    console.log(data);
     return new Promise(function (resolve, reject) {
         axios({
-            method: "post",
-            url: "https:/regres.in/api/users",
+            method: "POST",
+            url: "http://localhost:4567/collection",
             headers: {},
             data: data
         }).then((res, err) => {
@@ -207,5 +281,5 @@ export function collectionRegisterUser(id,collectorId,customerId,amount,collecti
     });
 }
 
-/*
-export function addData(retryTimes)  {...}*/
+
+/*export function addData(retryTimes)  {...}*/

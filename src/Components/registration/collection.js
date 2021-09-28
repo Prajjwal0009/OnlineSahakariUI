@@ -9,6 +9,7 @@ class collection extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
+            id:'',
             collectorId: '',
             customerId: '',
             amount: '',
@@ -19,8 +20,10 @@ class collection extends Component {
 
     onSubmit = (event) => {
         event.preventDefault();
-        collectionRegisterUser(this.state.collectorId, this.state.customerId, this.state.amount, this.state.collectionDate, this.state.receivedBy, 3).then(res => console.log(res))
-        window.location.href='/collectionList';
+        collectionRegisterUser(this.state.id,this.state.collectorId, this.state.customerId, this.state.amount, this.state.collectionDate, this.state.receivedBy, 3).then(res =>
+        window.location.href='/collectionList'
+    )
+
     }
     handleChange = (e) => {
         this.setState({[e.target.name]: e.target.value});
@@ -32,6 +35,13 @@ class collection extends Component {
                 <Container maxWidth="xs">
                     <form onSubmit={(event) => this.onSubmit(event)}>
                         <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                                <div className="col-sm-9" id="id">
+                                    <TextField label="Id" fullWidth variant="outlined" name="ID"
+                                               onChange={(e) => this.handleChange(e)}/>
+                                </div>
+
+                            </Grid>
                             <Grid item xs={12}>
                                 <div className="col-sm-9" id="id">
                                     <TextField label="collectorId" fullWidth variant="outlined" name="collectorID"

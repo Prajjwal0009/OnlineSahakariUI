@@ -3,6 +3,7 @@ import "./reg.css"
 import {collectorRegisterUser, registerUser} from "../../apiCalls/login";
 import Grid from "@material-ui/core/Grid";
 import {TextField} from "@material-ui/core";
+import Container from "@material-ui/core/Container";
 
 class Collector extends Component {
     constructor(props, context) {
@@ -15,7 +16,7 @@ class Collector extends Component {
     }
     onSubmit = (event) => {
         event.preventDefault();
-        collectorRegisterUser(this.state.name, this.state.address, this.state.contact,3).then(res => console.log(res))
+        collectorRegisterUser(this.state.id,this.state.name, this.state.address, this.state.contact,3).then(res => console.log(res))
         window.location.href='/collectorList'
     }
     handleChange = (e) => {
@@ -24,15 +25,25 @@ class Collector extends Component {
     render() {
         return (
             <div>
+                <div class = "heading">AddCollector</div>
+                <Container maxWidth="xs">
                 <form onSubmit={(event) => this.onSubmit(event)}>
                     <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            <div className="col-sm-9" id="id">
+                                <TextField label="Id" fullWidth variant="outlined" name="id"
+                                           onChange={(e) => this.handleChange(e)}/>
+                            </div>
+
+                        </Grid>
                         <Grid item xs={12}>
                             <div className="col-sm-9" id="Name">
                                 <TextField label="Name" fullWidth variant="outlined" name="name"
                                            onChange={(e) => this.handleChange(e)}/>
                             </div>
 
-                        </Grid> <Grid item xs={12}>
+                        </Grid>
+                        <Grid item xs={12}>
                             <div className="col-sm-9" id="Address">
                                 <TextField label="Address" fullWidth variant="outlined" name="Address"
                                            onChange={(e) => this.handleChange(e)}/>
@@ -56,6 +67,7 @@ class Collector extends Component {
                         </div>
 
                 </form>
+                </Container>
             </div>
         );
     }

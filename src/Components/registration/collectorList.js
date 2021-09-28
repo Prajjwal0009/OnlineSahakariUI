@@ -12,7 +12,8 @@ import axios from "axios";
 import {AppBar, Button, IconButton, Toolbar} from "@material-ui/core";
 import {classes} from "istanbul-lib-coverage";
 import Typography from "@material-ui/core/Typography";
-
+import {collectorList, getCollectionLists, getCollectorsList, getCustomerLists} from "../../apiCalls/login";
+import { render } from '@testing-library/react';
 const columns = [
     {id: 'id', label: 'Id', minWidth: 170},
     {id: 'name', label: 'name', minWidth: 100},
@@ -38,13 +39,16 @@ const columns = [
         format: (value) => value.toLocaleString('en-US'),
     },
 ];
-
-function createData(id, name, address, contact) {
+function createData(id,name, address, contact) {
     /* const density = population / size;
      return { name, code, population, size, density };*/
 }
-
-const rows = [];
+function deleteData(id) {
+    /* const density = population / size;
+     return { name, code, population, size, density };*/
+}
+const rows = [
+];
 
 const useStyles = makeStyles({
     root: {
@@ -54,15 +58,22 @@ const useStyles = makeStyles({
         maxHeight: 440,
     },
 });
-
-export default function StickyHeadTable() {
+export default function CollectorList() {
     const classes = useStyles();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    const [collectorsList, setCollectorsList] = React.useState([]);
+    const [data, setData] = React.useState([]);
 
     useEffect(() => {
-        // getCollectorsLists().then(r=>console.log(r))
+        getCollectorsList().then(r=>{
+            console.log(r.data);
+            setData(r.data);
+
+            if(data == null)
+                console.log("empty data");
+
+        });
+
     });
 
     const handleChangePage = (event, newPage) => {
@@ -81,7 +92,7 @@ export default function StickyHeadTable() {
                     <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
                     </IconButton>
                     <Typography variant="h6" className={classes.title}>
-                     <Button color="inherit" onClick={(e)=>window.location.href='/home'}> OnlineSahakari</Button>
+                        <Button color="inherit" onClick={(e)=>window.location.href='/home'}>OnlineSahakari</Button>
                     </Typography>
                     <div class="log-in">
                         <Button color="inherit" onClick={(e)=>window.location.href='/customerList'}>Customer</Button>
@@ -90,57 +101,107 @@ export default function StickyHeadTable() {
                     </div>
                 </Toolbar>
             </AppBar>
-            <button color="inherit" onClick={(e)=>window.location.href='/collector'}>AddCollector</button>
-        <Paper className={classes.root}>
-            <TableContainer className={classes.container}>
-                <Table stickyHeader aria-label="sticky table">
-                    <TableHead>
-                        <TableRow>
-                            {columns.map((column) => (
-                                <TableCell
-                                    key={column.id}
-                                    align={column.align}
-                                    style={{minWidth: column.minWidth}}
-                                >
-                                    {column.label}
-                                </TableCell>
-                            ))}
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {[{"id": "1", "name": "prajjwal", "address": "dakshindhoka", "action": "submit"}].map((row) => {
+            <button color="inherit" onClick={(e)=>window.location.href='/collectorReg'}>AddCollector</button>
+            <Paper className={classes.root}>
+                <TableContainer className={classes.container}>
+                    <Table stickyHeader aria-label="sticky table">
+                        <TableHead>
+                            <TableRow>
+                                {columns.map((column) => (
+                                    <TableCell
+                                        key={column.id}
+                                        align={column.align}
+                                        style={{ minWidth: column.minWidth }}
+                                    >
+                                        {column.label}
+                                    </TableCell>
+                                ))}
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {data.map((row)=>{
                             return (
                                 <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                                    {columns.map((column, index) => {
-                                        const value = row[column.id];
-                                        return (
-
-                                            <TableCell key={column.id} align={column.align}>
-                                                {index === columns.length - 1 ?
-                                                    <div style={{display: "flex", justifyContent: "space-around"}}>
-                                                        <button>Edit</button><button>Delete</button>
-                                                    </div> : column.format && typeof value === 'number' ? column.format(value) : value}
-                                            </TableCell>
-
-
-                                        );
-                                    })}
-                                </TableRow>
+                                {columns.map((column, index) => {
+                                    const value = row[column.id];
+                                    return (
+                                        <TableCell key={column.id} align={column.align}>
+                                            {index === columns.length - 1 ?
+                                                <div style={{
+                                                    display: "flex",
+                                                    justifyContent: "space-around"
+                                                }}>
+                                                    <Button>Edit</Button><Button>Delete</Button>
+                                                </div> : column.format && typeof value === 'number' ? column.format(value) : value}
+                                        </TableCell>
+                                    );
+                                })}
+                            </TableRow>
                             );
                         })}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            <TablePagination
-                rowsPerPageOptions={[10, 25, 100]}
-                component="div"
-                count={rows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onChangePage={handleChangePage}
-                onChangeRowsPerPage={handleChangeRowsPerPage}
-            />
-        </Paper>
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                <TablePagination
+                    rowsPerPageOptions={[10, 25, 100]}
+                    component="div"
+                    count={rows.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onChangePage={handleChangePage}
+                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                />
+            </Paper>
         </div>
     );
 }
+
+
+async function getData(){
+    let data = await collectorList(null);
+    return data;
+}
+/*function createData(id, name, address, contact) {*/
+/* const density = population / size;
+     return { name, code, population, size, density };*//*
+
+
+}
+
+const rows = [];
+
+const useStyles = makeStyles({
+    root: {
+        width: '100%',
+    },
+    container: {
+        maxHeight: 440,
+    },
+});
+
+// class CollectorList extends Component {
+//     const classes = useStyles();
+//     const [page, setPage] = React.useState(0);
+//     const [rowsPerPage, setRowsPerPage] = React.useState(10);
+//     const [collectorsList, setCollectorsList] = React.useState([]);
+
+//     useEffect(() => {
+//         // getCollectorsLists().then(r=>console.log(r))
+//     });
+
+//     componentDidMount() {
+
+//         this.getAllCountries()
+//     }
+
+//     const handleChangePage = (event, newPage) => {
+//         setPage(newPage);
+//     };
+
+//     const handleChangeRowsPerPage = (event) => {
+//         setRowsPerPage(+event.target.value);
+//         setPage(0);
+//     };
+    
+// }*/
+

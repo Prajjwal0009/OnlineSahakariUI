@@ -30,7 +30,7 @@ form
 }
 .word
 {
-    font-style: bold;
+    font-style: normal;
     font-family: 'Roboto',sans-serif;
 
 }
@@ -79,4 +79,9 @@ p
 .log-in{
     float: right;
     padding-left: 20%;
+}
+.heading{
+color: black;
+text-align: center;
+font-size: xx-large;
 }

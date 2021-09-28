@@ -8,7 +8,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import {getCollectionLists} from "../../apiCalls/login";
+import {getCollectionLists, getCollectorsList} from "../../apiCalls/login";
 import {AppBar, IconButton, Toolbar} from "@material-ui/core";
 import {classes} from "istanbul-lib-coverage";
 import Typography from "@material-ui/core/Typography";
@@ -16,26 +16,25 @@ import Button from "@material-ui/core/Button";
 
 const columns = [
     { id: 'id', label: 'Id', minWidth: 170 },
-    { id: 'id', label: 'collectorId', minWidth: 100 },
+    { id: 'collectorId', label: 'collectorId', minWidth: 100 },
     {
-        id: 'id',
-        label: 'customerId',
+        id: 'customerId',
+        label: 'CustomerId',
         minWidth: 170,
           },
     {
         id: 'amount',
         label: 'amount',
         minWidth: 170,
-        align: 'right',
         format: (value) => value.toLocaleString('en-US'),
     },
     {
-        id: 'Date',
-        label: 'collectionDate',
+        id: 'collectionDate',
+        label: 'CollectionDate',
         minWidth: 170,
     },
     {
-        id: 'name',
+        id: 'receivedBy',
         label: 'receivedBy',
         align: 'right',
         format: (value) => value.toLocaleString('en-US'),
@@ -70,10 +69,17 @@ export default function CollectionList() {
     const classes = useStyles();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    const [collectionList, setCollectionLists] = React.useState([]);
+    const [collectionData, setCollectionData] = React.useState([]);
 
     useEffect(() => {
-        getCollectionLists().then(r=>console.log(r))
+        getCollectionLists().then(r => {
+            console.log(r.data);
+            setCollectionData(r.data);
+
+            if (collectionData == null)
+                console.log("empty data");
+
+        });
     });
 
     const handleChangePage = (event, newPage) => {
@@ -119,7 +125,7 @@ export default function CollectionList() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {collectionList.map((row) => {
+                        {collectionData.map((row) => {
                             return (
                                 <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
                                     {columns.map((column, index) => {
